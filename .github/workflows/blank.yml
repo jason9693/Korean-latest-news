@@ -1,0 +1,19 @@
+name: Generate README
+
+on:
+  schedule:
+    - cron: '0 * * * *' # 매시간 0분에 실행
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Find latest markdown file
+        run: |
+          latest_file=$(ls *.md | sort -r | head -1)
+          echo "## Latest File: $latest_file" > README.md
+          cat $latest_file >> README.md
+
